@@ -1,4 +1,4 @@
-import Vue from "../node_modules/vue/dist/vue";
+import Vue from "../vue.min";
 import { setInterval } from "timers";
 
 var app = new Vue({
