@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="newTask">
+            <input type="text" v-model="newtodo" @keypress.enter="greet">
+        </div>
+        <ul class="todos" v-for="todo in todoList">
+            <input type="checkbox" v-model='todo.done'>{{todo.title}} <div class="time">{{todo.createdAt}}</div> 
+            <span v-if = "todo.done">已完成</span>
+            <span v-else>未完成</span>
+            <button @click ='removetodo(this.todo)'>删除</button>
+        </ul>
+    </div>
+    <script src="bundle.js"></script>
+
+    <!-- <script src="https://unpkg.com/vue"></script>
+    <script>
+    var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }
+        })
+        </script> -->
+</body>
+
+</html>
