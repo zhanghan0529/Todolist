@@ -11,15 +11,40 @@
 
 <body>
     <div id="app" v-cloak>
-        <div class="newTask" >
-            <input type="text" v-model="newtodo" @keypress.enter="greet">
+        <div id="sign" v-if="!currentUser">
+            <input type='radio' name='type' v-model='actionType' value='login'>登陆
+            <input type='radio' name='type' v-model='actionType' value='signUp'>注册
+            <div class="signup" v-if='actionType=="signUp"' >
+                <form @submit.prevent=signUp>
+                    <input type="text" v-model='formData.username'>用户名
+                    <input type="password" v-model='formData.userpassword'>密码
+                    <input type="submit" value='注册'>
+                </form>
+            </div>
+
+            <div class="login" v-if='actionType=="login"'>
+                <form @submit.prevent=login>
+                    <input type="text" v-model='formData.username'>用户名
+                    <input type="password" v-model='formData.userpassword'>密码
+                    <input type="submit" value='登陆'>
+                </form>
+            </div>
         </div>
-        <ul class="todos" v-for="todo in todoList">
-            <input type="checkbox" v-model='todo.done'>{{todo.title}} <div class="time">{{todo.createdAt}}</div> 
-            <span v-if = "todo.done">已完成</span>
-            <span v-else>未完成</span>
-            <button @click ='removetodo(this.todo)'>删除</button>
-        </ul>
+        <div id="content" v-if="currentUser">
+            <div clss='welcome'>Hello,{{this.formData.username}}现在是：{{this.formData.date}}</div>
+            <button @click.prevent="loginout">登出</button>
+            <div class="newTask">
+                <input type="text" v-model="newtodo" @keypress.enter="greet">
+            </div>
+            <ul class="todos" v-for="todo in todoList">
+                <input type="checkbox" v-model='todo.done'>{{todo.title}}
+                <div class="time">{{todo.createdAt}}</div>
+                <span v-if="todo.done">已完成</span>
+                <span v-else>未完成</span>
+                <button @click='removetodo(this.todo)'>删除</button>
+            </ul>
+        </div>
+
     </div>
     <script src="bundle.js"></script>
 
