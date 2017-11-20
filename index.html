@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <div id="app">
-        <div class="newTask">
+    <div id="app" v-cloak>
+        <div class="newTask" >
             <input type="text" v-model="newtodo" @keypress.enter="greet">
         </div>
         <ul class="todos" v-for="todo in todoList">
