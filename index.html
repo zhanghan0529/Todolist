@@ -34,7 +34,7 @@
             <div clss='welcome'>Hello,{{this.formData.username}}现在是：{{this.formData.date}}</div>
             <button @click.prevent="loginout">登出</button>
             <div class="newTask">
-                <input type="text" v-model="newtodo" @keypress.enter="greet">
+                <input type="text" v-model="newtodo" @keypress.enter="greet"><button  @click.prevent="greet">+</button>
             </div>
             <ul class="todos" v-for="todo in todoList">
                 <input type="checkbox" v-model='todo.done'>{{todo.title}}
