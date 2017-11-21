@@ -10,39 +10,62 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <div id="sign" v-if="!currentUser">
-            <input type='radio' name='type' v-model='actionType' value='login'>登陆
-            <input type='radio' name='type' v-model='actionType' value='signUp'>注册
-            <div class="signup" v-if='actionType=="signUp"' >
-                <form @submit.prevent=signUp>
-                    <input type="text" v-model='formData.username'>用户名
-                    <input type="password" v-model='formData.userpassword'>密码
-                    <input type="submit" value='注册'>
-                </form>
-            </div>
+    <div class='app' id="app" v-cloak>
+        <div class='wrap'>
+            <div class='index' id="index" v-if="!currentUser">
+                <div class="logo">
+                    <img src="http://oys2jna3r.bkt.clouddn.com/logo2.PNG" alt="">
+                    <p>Oh,我好像要记点什么事...</p>
+                </div>
+                <!-- <input type='radio' name='type' v-model='actionType' value='login'>登陆
+            <input type='radio' name='type' v-model='actionType' >注册 -->
+                <div class="navsider">
+                    <a class="btn" v-bind:class="{ active: current2===0 }" @click.prevent="clogin">登陆</a>
+                    <a class="btn" v-bind:class="{ active: current2===1 }" @click.prevent="csignUp">注册</a>
+                    <span class="navbar" v-bind:class="{active1:current2 ===1}"></span>
+                </div>
 
-            <div class="login" v-if='actionType=="login"'>
-                <form @submit.prevent=login>
-                    <input type="text" v-model='formData.username'>用户名
-                    <input type="password" v-model='formData.userpassword'>密码
-                    <input type="submit" value='登陆'>
-                </form>
+                <div class="login" v-if='actionType'>
+                    <form @submit.prevent=login>
+                        <input class="uname" type="text" v-model='formData.username' placeholder="用户名">
+                        <input class="passw" type="password" v-model='formData.password' placeholder="密码">
+                        <!-- <input type="submit" value='登陆'> -->
+                        <a class="signl" @click.prevent="csignUp">没有账号,这里注册~</a>
+                        <button class="actionbtn">登陆</button>
+                    </form>
+                </div>
+                <div class="signup" v-else>
+                    <form @submit.prevent=signUp>
+                        <input class="uname" type="text" v-model='formData.username' placeholder="用户名">
+                        <input class="passw" type="password" v-model='formData.password' placeholder="密码">
+                        <!-- <input type="submit" value='注册'> -->
+                        <button class="actionbtn">注册</button>
+                    </form>
+                </div>
             </div>
         </div>
+
         <div id="content" v-if="currentUser">
-            <div clss='welcome'>Hello,{{this.formData.username}}现在是：{{this.formData.date}}</div>
-            <button @click.prevent="loginout">登出</button>
-            <div class="newTask">
-                <input type="text" v-model="newtodo" @keypress.enter="greet"><button  @click.prevent="greet">+</button>
+            <div class='welcome'>
+                <div class="wordtime"> Hello,{{this.formData.username}}~ </div>
+                <!-- <span class="time">{{this.formData.date}}</span> -->
+                <button @click.prevent="loginout">登出</button>
             </div>
-            <ul class="todos" v-for="todo in todoList">
-                <input type="checkbox" v-model='todo.done'>{{todo.title}}
-                <div class="time">{{todo.createdAt}}</div>
-                <span v-if="todo.done">已完成</span>
-                <span v-else>未完成</span>
-                <button @click='removetodo(this.todo)'>删除</button>
-            </ul>
+
+            <div class="newTask">
+                <input type="text" v-model="newtodo" @keypress.enter="addTodo">
+                <button @click.prevent="addTodo">添加</button>
+            </div>
+            <ol class="todos">
+                <li v-for="todo in todoList">
+                    <input type="checkbox" v-model='todo.done'>{{todo.title}}
+                    <div class="time">{{todo.createdAt}}</div>
+                    <span v-if="todo.done">已完成</span>
+                    <span v-else>未完成</span>
+                    <button @click='removeTodo(this.todo)'>删除</button>
+                </li>
+
+            </ol>
         </div>
 
     </div>

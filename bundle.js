@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -284,73 +284,12 @@ module.exports = g;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = Function.prototype.apply;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) {
-  if (timeout) {
-    timeout.close();
-  }
-};
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// setimmediate attaches itself to the global object
-__webpack_require__(5);
-exports.setImmediate = setImmediate;
-exports.clearImmediate = clearImmediate;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
-var _vue = __webpack_require__(4);
+var _vue = __webpack_require__(3);
 
 var _vue2 = _interopRequireDefault(_vue);
-
-var _timers = __webpack_require__(2);
 
 var _leancloudStorage = __webpack_require__(6);
 
@@ -369,10 +308,11 @@ _leancloudStorage2.default.init({
 var app = new _vue2.default({
   el: "#app",
   data: {
-    actionType: "login",
+    current2: 0,
+    actionType: true,
     formData: {
       username: "",
-      userpassword: "",
+      password: "",
       date: howTime()
     },
     currentUser: null,
@@ -382,128 +322,43 @@ var app = new _vue2.default({
 
   created: function created() {
     this.currentUser = this.getUser();
-    console.log(this.currentUser);
     this.formData.username = this.currentUser.username;
-    this.fetchTodo();
-    window.onbeforeunload = function () {
-      // let datanew = JSON.stringify(this.newtodo);
-      // window.localStorage.setItem("new", datanew);
-      // window.localStorage.setItem("mytodo", dataString);
-    };
-    // let oldnew = window.localStorage.getItem("new");
-    // let oldnew1 = JSON.parse(oldnew);
-    // let oldDatastring = window.localStorage.getItem("mytodo");
-    // let oldData = JSON.parse(oldDatastring);
-    // this.todoList = oldData;
-    // this.newtodo = oldnew1;
-    // this.currentUser = this.getUser();
+    this.renderTodo();
   },
   methods: {
-    fetchTodo: function fetchTodo() {
+    clogin: function clogin() {
+      this.actionType = true;
+      this.current2 = 0;
+    },
+    csignUp: function csignUp() {
+      this.actionType = false;
+      this.current2 = 1;
+    },
+    login: function login() {
       var _this = this;
-
-      if (this.currentUser) {
-        var query = new _leancloudStorage2.default.Query("Todolist");
-        query.find().then(function (todos) {
-          console.log(todos);
-          var Alltodo = todos[0];
-          var id = Alltodo.id;
-          console.log(Alltodo.username);
-          _this.formData.username = _this.currentUser.username;
-          _this.todoList = JSON.parse(Alltodo.attributes.content);
-          _this.todoList.id = id;
-          console.log(_this.todoList.id);
-        }), function (error) {
-          //         console.log(cuole)
-        };
-      }
-    },
-    Update: function Update() {
-      var dataString = JSON.stringify(this.todoList);
-      var todo = _leancloudStorage2.default.Object.createWithoutData("Todolist", this.todoList.id);
-      todo.set("content", dataString);
-      todo.save().then(function () {
-        console.log("更新成功");
-      });
-    },
-
-    saveOrUpdate: function saveOrUpdate() {
-      if (this.todoList.id) {
-        this.Update();
-      } else {
-        this.getTodo();
-      }
-    },
-
-    getTodo: function getTodo() {
-      var _this2 = this;
-
-      var dataString = JSON.stringify(this.todoList);
-      var TodoFolder = _leancloudStorage2.default.Object.extend("Todolist");
-      var todoFolder = new TodoFolder();
-      var acl = new _leancloudStorage2.default.ACL();
-      acl.setWriteAccess(_leancloudStorage2.default.User.current(), true);
-      acl.setReadAccess(_leancloudStorage2.default.User.current(), true);
-      todoFolder.set("content", dataString);
-      todoFolder.setACL(acl);
-      todoFolder.save().then(function (todo) {
-        alert("111111");
-        _this2.todoList.id = todo.id;
-        console.log(_this2.todoList.id);
-      }, function (error) {
-        console.error(error);
-      });
-    },
-
-    greet: function greet() {
-      this.todoList.push({
-        title: this.newtodo,
-        createdAt: howTime(),
-        done: false
-      });
-      this.saveOrUpdate();
-      this.newtodo = "";
-    },
-
-    removetodo: function removetodo() {
-      var index = this.todoList.indexOf(this.todo);
-      this.todoList.splice(index, 1);
-      this.saveOrUpdate();
-    },
-
-    signUp: function signUp() {
-      var _this3 = this;
 
       var user = new _leancloudStorage2.default.User();
       user.setUsername(this.formData.username);
-      user.setPassword(this.formData.userpassword);
+      user.setPassword(this.formData.password);
+      _leancloudStorage2.default.User.logIn(this.formData.username, this.formData.password).then(function (loginedUser) {
+        _this.currentUser = _this.getUser();
+        _this.renderTodo();
+        console.log(1);
+      }, function (error) {
+        alert("账号或者密码错误~");
+      });
+    }, //用户登陆
+    signUp: function signUp() {
+      var user = new _leancloudStorage2.default.User();
+      user.setUsername(this.formData.username);
+      user.setPassword(this.formData.password);
       user.signUp().then(function (loginedUser) {
-        _this3.currenrUser = _this3.getUser();
+        alert("注册成功~");
+        // this.currentUser = this.getUser();
       }, function (error) {
         alert("用户名已存在~");
       });
-    },
-
-    login: function login() {
-      var _this4 = this;
-
-      var user = new _leancloudStorage2.default.User();
-      user.setUsername(this.formData.username);
-      user.setPassword(this.formData.userpassword);
-      _leancloudStorage2.default.User.logIn(this.formData.username, this.formData.userpassword).then(function (loginedUser) {
-        // console.log(1);
-        _this4.currentUser = _this4.getUser();
-        _this4.fetchTodo();
-      }, function (error) {
-        alert("用户名不存在或密码错误~");
-      });
-    },
-    loginout: function loginout() {
-      window.location.reload();
-      _leancloudStorage2.default.User.logOut();
-      this.currentUser = null;
-    },
-
+    }, //用户注册
     getUser: function getUser() {
       var current = _leancloudStorage2.default.User.current();
       if (current) {
@@ -515,7 +370,76 @@ var app = new _vue2.default({
       } else {
         return null;
       }
-    }
+    }, //获取登录成功用户信息
+    loginout: function loginout() {
+      window.location.reload();
+      _leancloudStorage2.default.User.logOut();
+      this.currentUser = null;
+    }, //登出
+    addTodo: function addTodo() {
+      if (this.newtodo == "") {
+        alert("请输入待办事项");
+      } else {
+        this.todoList.push({
+          title: this.newtodo,
+          createdAt: howTime(),
+          done: false
+        });
+        this.saveOrUpdate();
+        this.newtodo = "";
+      }
+    }, //添加事件
+    removeTodo: function removeTodo() {
+      var index = this.todoList.indexOf(this.todo);
+      this.todoList.splice(index, 1);
+      this.saveOrUpdate();
+    }, //删除事件
+    saveTodo: function saveTodo() {
+      var _this2 = this;
+
+      var dataString = JSON.stringify(this.todoList);
+      var TodoFolder = _leancloudStorage2.default.Object.extend("Todolist");
+      var todoFolder = new TodoFolder();
+      var acl = new _leancloudStorage2.default.ACL();
+      acl.setWriteAccess(_leancloudStorage2.default.User.current(), true); //设置用户权限
+      acl.setReadAccess(_leancloudStorage2.default.User.current(), true);
+      todoFolder.set("content", dataString);
+      todoFolder.setACL(acl);
+      todoFolder.save().then(function (todo) {
+        _this2.todoList.id = todo.id;
+        console.log(_this2.todoList.id);
+      });
+    }, //用户存储事件
+    upDate: function upDate() {
+      var dataString = JSON.stringify(this.todoList);
+      var todo = _leancloudStorage2.default.Object.createWithoutData("Todolist", this.todoList.id);
+      todo.set("content", dataString);
+      todo.save().then(function () {
+        console.log("更新成功");
+      });
+    }, //用户更新列表
+    saveOrUpdate: function saveOrUpdate() {
+      if (this.todoList.id) {
+        this.upDate();
+      } else {
+        this.saveTodo();
+      }
+    }, //判断用户储存列表是否存在，存在则更新
+    renderTodo: function renderTodo() {
+      var _this3 = this;
+
+      if (this.currentUser) {
+        var query = new _leancloudStorage2.default.Query("Todolist");
+        query.find().then(function (todos) {
+          var Alltodo = todos[0];
+          var id = Alltodo.id;
+          _this3.todoList = JSON.parse(Alltodo.attributes.content);
+          _this3.todoList.id = id;
+        }), function (error) {
+          console.log(cuole);
+        };
+      }
+    } //用户登陆后，获取该用户的事件列表
   }
 });
 
@@ -532,7 +456,7 @@ function howTime() {
 }
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11208,7 +11132,66 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1), __webpack_require__(2).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1), __webpack_require__(4).setImmediate))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var apply = Function.prototype.apply;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) {
+  if (timeout) {
+    timeout.close();
+  }
+};
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// setimmediate attaches itself to the global object
+__webpack_require__(5);
+exports.setImmediate = setImmediate;
+exports.clearImmediate = clearImmediate;
+
 
 /***/ }),
 /* 5 */

@@ -1,3 +1,182 @@
-[v-cloak]{
-     display: none 
-    }
+[v-cloak] {
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+ol{
+    padding: 0;
+    margin: 0;
+}
+body {
+  background: #f7fafc;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.index {
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  text-align: center;
+  color: #555;
+  margin-top: 10rem;
+}
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+.logo p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.navsider a {
+  font-size: 1.1rem;
+  display: inline-block;
+  padding: 0 0.3rem 0.3rem 0.3rem;
+  margin: 0.7rem;
+  cursor: pointer;
+  /* position: relative; */
+}
+.navsider {
+  position: relative;
+}
+
+.navsider .navbar {
+  position: absolute;
+  width: 2.2rem;
+  height: 2px;
+  background: #0f88eb;
+  z-index: 1;
+  top: 40px;
+  left: 103px;
+  transition: left 0.3s ease-in;
+}
+.navsider .active1 {
+  left: 10.9rem;
+}
+.navsider .active {
+  color: #0f88eb;
+  opacity: 1;
+  transition: all 0.3s;
+}
+/* .index{
+    width: 50%;
+
+} */
+.login,
+.signup {
+  display: flex;
+  width: 100%;
+  opacity: 1;
+  justify-content: center;
+}
+form {
+  width: 80%;
+}
+.login input,
+.signup input {
+  display: flex;
+  width: 100%;
+  outline-style: none;
+  padding: 0.8rem;
+  border: 1px solid #bbb;
+}
+.login .uname,
+.signup .uname {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.login .passw,
+.signup .passw {
+  border-top: none;
+  margin-bottom: 0.8rem;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.login .signl {
+  display: inline-block;
+  text-decoration: underline;
+  color: #bbb;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+}
+/* .login .actionbtn, */
+.actionbtn {
+  background: #0f88eb;
+  color: white;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.actionbtn:hover {
+  opacity: 0.8;
+}
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+}
+#content .welcome {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),
+   0 0 0 1px rgba(0,0,0,0.08);
+  padding: 0.8rem
+}
+.welcome .wordtime {
+  font-size: 1rem;
+  color: #555;
+}
+.welcome .time{
+    font-size: 0.5rem;
+}
+.welcome button,.newTask button{
+    background: #0f88eb;
+    color: white;
+    border:none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+
+
+.newTask{
+    width: 80%;
+    margin: 1rem auto;
+    text-align: center;
+}
+.newTask input{
+    width: 80%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    outline-style: none;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    background: #f7fafc;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16);
+}
+.todos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.todos li{
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16);
+    padding:1rem;
+    margin-bottom: 0.5rem;
+}
