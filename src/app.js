@@ -1,6 +1,6 @@
 import Vue from "vue";
 import AV from "leancloud-storage";
-import './css/index.css'
+import "./css/index.css";
 var APP_ID = "CC0a4InFWTatKF6PoPgm5hsW-gzGzoHsz";
 var APP_KEY = "lE5Pic3Gl2DNqfUQwqXiCd4X";
 
@@ -14,6 +14,7 @@ var app = new Vue({
   data: {
     current2: 0,
     actionType: true,
+    sendmess: "",
     formData: {
       username: "",
       password: "",
@@ -21,7 +22,15 @@ var app = new Vue({
     },
     currentUser: null,
     newtodo: "",
-    todoList: []
+    todoList: [],
+  },
+  computed: {
+    exapm: {
+      cache: false,
+      get: function() {
+        return Date.now() + this.sendmess;
+      }
+    }
   },
 
   created: function() {
@@ -42,18 +51,16 @@ var app = new Vue({
       let user = new AV.User();
       user.setUsername(this.formData.username);
       user.setPassword(this.formData.password);
-      AV.User
-        .logIn(this.formData.username, this.formData.password)
-        .then(
-          loginedUser => {
-            this.currentUser = this.getUser();
-            this.renderTodo();
-            console.log(1);
-          },
-          function(error) {
-            alert("账号或者密码错误~");
-          }
-        );
+      AV.User.logIn(this.formData.username, this.formData.password).then(
+        loginedUser => {
+          this.currentUser = this.getUser();
+          this.renderTodo();
+          console.log(1);
+        },
+        function(error) {
+          alert("账号或者密码错误~");
+        }
+      );
     }, //用户登陆
     signUp: function() {
       let user = new AV.User();
@@ -79,7 +86,8 @@ var app = new Vue({
       }
     }, //获取登录成功用户信息
     loginout: function() {
-      window.location.reload();
+      // window.location.reload();
+      this.newtodo='';
       AV.User.logOut();
       this.currentUser = null;
     }, //登出
@@ -97,10 +105,9 @@ var app = new Vue({
       }
     }, //添加事件
     removeTodo: function() {
-
       let index = this.todoList.indexOf(this.todo);
       this.todoList.splice(index, 1);
-      
+
       this.saveOrUpdate();
     }, //删除事件
     saveTodo: function() {
@@ -145,7 +152,7 @@ var app = new Vue({
             console.log(cuole);
           };
       }
-    }//用户登陆后，获取该用户的事件列表
+    } //用户登陆后，获取该用户的事件列表
   }
 });
 
