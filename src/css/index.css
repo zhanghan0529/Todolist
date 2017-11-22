@@ -5,6 +5,19 @@
 * {
   box-sizing: border-box;
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  } /*初始状态 透明度为0*/
+  40% {
+    opacity: 0;
+  } /*过渡状态 透明度为0*/
+  100% {
+    opacity: 1;
+  } /*结束状态 透明度为1*/
+}
+
 ul {
   padding: 0;
   margin: 0;
@@ -127,6 +140,7 @@ form {
   flex-direction: column;
   justify-content: center;
   margin: 1rem;
+  animation: fade-in 0.3s 
 }
 #content .welcome {
   display: flex;
@@ -194,8 +208,10 @@ form {
   margin: 0 auto;
   margin-bottom: 0.5rem;
   color: #444;
-  transition: all 1s
+  animation: fade-in 0.5s ;
+  
 }
+
 todos li > input {
   width: 1rem;
   height: 1rem;
@@ -208,7 +224,7 @@ todos li > input {
 .isover {
   font-size: 0.3rem;
   margin: 0 0.5rem;
-  color:rgb(243, 173, 22);
+  color: rgb(243, 173, 22);
   /* flex-basis: 3.6rem; */
 }
 .howtime {

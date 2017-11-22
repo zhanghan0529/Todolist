@@ -56,13 +56,14 @@
                 <input type="text" v-model="newtodo" @keypress.enter="addTodo">
                 <button @click.prevent="addTodo">添加</button>
             </div>
+             <!--  -->
             <ul class="todos">
                 <li v-for="todo in todoList">
                     <input type="checkbox" v-model='todo.done'>
                     <div class="howtime">{{todo.createdAt}}</div>
                     <span class="content">{{todo.title}}</span>
                     <span class="isover active2" v-if="todo.done">已完成</span>
-                    <span  class="isover" v-else>未完成</span>
+                    <span class="isover" v-else>未完成</span>
                     <button @click='removeTodo(this.todo)'>移除</button>
                 </li>
 

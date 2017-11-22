@@ -97,8 +97,10 @@ var app = new Vue({
       }
     }, //添加事件
     removeTodo: function() {
+
       let index = this.todoList.indexOf(this.todo);
       this.todoList.splice(index, 1);
+      
       this.saveOrUpdate();
     }, //删除事件
     saveTodo: function() {
