@@ -5,9 +5,10 @@
 * {
   box-sizing: border-box;
 }
-ol{
-    padding: 0;
-    margin: 0;
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 body {
   background: #f7fafc;
@@ -131,52 +132,92 @@ form {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),
-   0 0 0 1px rgba(0,0,0,0.08);
-  padding: 0.8rem
+  border-radius: 5px;
+  background: #eee;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  padding: 0.8rem;
 }
 .welcome .wordtime {
   font-size: 1rem;
   color: #555;
 }
-.welcome .time{
-    font-size: 0.5rem;
+.welcome .time {
+  font-size: 0.5rem;
 }
-.welcome button,.newTask button{
-    background: #0f88eb;
-    color: white;
-    border:none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer
+.welcome button,
+.newTask button {
+  background: #0f88eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-
-
-.newTask{
-    width: 80%;
-    margin: 1rem auto;
-    text-align: center;
+.todos button {
+  background: #0f88eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
 }
-.newTask input{
-    width: 80%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    outline-style: none;
-    border-radius: 5px;
-    border: 1px solid #bbb;
-    background: #f7fafc;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16);
+
+.newTask {
+  width: 80%;
+  margin: 1rem auto;
+  text-align: center;
+}
+.newTask input {
+  width: 80%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  outline-style: none;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  background: #f7fafc;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
 }
 .todos {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.todos li{
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16);
-    padding:1rem;
-    margin-bottom: 0.5rem;
+.todos li {
+  display: flex;
+  width: 100%;
+  word-wrap: nowrap;
+  font-size: 1rem;
+  align-items: center;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
+  padding: 1rem;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+  color: #444;
+  transition: all 1s
+}
+todos li > input {
+  width: 1rem;
+  height: 1rem;
+}
+.content {
+  flex-grow: 1;
+  word-break: break-word;
+}
+
+.isover {
+  font-size: 0.3rem;
+  margin: 0 0.5rem;
+  color:rgb(243, 173, 22);
+  /* flex-basis: 3.6rem; */
+}
+.howtime {
+  font-size: 0.3rem;
+  width: 5rem;
+}
+.active2 {
+  background: rgb(243, 173, 22);
+  color: white;
+  text-decoration: line-through;
+  border-radius: 3px;
 }
