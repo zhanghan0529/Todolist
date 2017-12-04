@@ -14,7 +14,6 @@ var app = new Vue({
   data: {
     current2: 0,
     actionType: true,
-    sendmess: "",
     formData: {
       username: "",
       password: "",
@@ -23,14 +22,6 @@ var app = new Vue({
     currentUser: null,
     newtodo: "",
     todoList: [],
-  },
-  computed: {
-    exapm: {
-      cache: false,
-      get: function() {
-        return Date.now() + this.sendmess;
-      }
-    }
   },
 
   created: function() {
